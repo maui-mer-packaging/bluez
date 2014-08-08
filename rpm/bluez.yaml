@@ -1,0 +1,162 @@
+Name: bluez
+Version: 5.22
+Release: 1
+Summary: Bluetooth utilities
+Description: |
+  Utilities for use in Bluetooth applications:
+      --ciptool
+      --dfutool
+      --hcitool
+      --l2ping
+      --rfcomm
+      --sdptool
+      --hciattach
+      --hciconfig
+      --hid2hci
+  
+  The BLUETOOTH trademarks are owned by Bluetooth SIG, Inc., U.S.A.
+Group: Applications/System
+License: GPLv2+
+URL: http://www.bluez.org/
+
+Sources:
+    - "%{name}-%{version}.tar.xz"
+    - bluetooth.modprobe
+
+Patches:
+    - 0001-Allow-using-obexd-without-systemd-in-the-user-session.patch
+
+SetupOptions: -q -n %{name}-%{version}/upstream
+
+Requires:
+    - bluez-libs = %{version}
+    - dbus >= 0.60
+    - hwdata >= 0.215
+    - bluez-configs
+
+PkgConfigBR:
+    - dbus-1
+    - libusb
+    - alsa
+    - udev
+    - sndfile
+    - glib-2.0
+    - check
+    - libical
+PkgBR:
+    - flex
+    - readline-devel
+
+Configure: configure
+ConfigOptions:
+    - --enable-cups
+    - --enable-tools
+    - --enable-library
+    - --enable-test
+    - --enable-sixaxis
+    - --enable-experimental
+    - --with-systemdsystemunitdir=%{_unitdir}
+    - --with-systemduserunitdir=%{_userunitdir}
+Builder: make
+
+Conflicts:
+    - bluez-alsa
+Provides:
+    - bluez-alsa
+
+Files:
+    - "%config %{_sysconfdir}/dbus-1/system.d/bluetooth.conf"
+    - "%{_bindir}/*"
+    - "%{_libdir}/bluetooth/*"
+    - "%{_libexecdir}/bluetooth/*"
+    - "%{_prefix}/%{_lib}/modprobe.d/*"
+    - "%{_datadir}/dbus-1/system-services/org.bluez.service"
+    - "%{_datadir}/dbus-1/services/org.bluez.obex.service"
+    - "%{_unitdir}/bluetooth.service"
+    - "%{_userunitdir}/obex.service"
+
+SubPackages:
+    - Name: libs
+      Summary: Libraries for use in Bluetooth applications
+      Group: System/Libraries
+      Description: Libraries for use in Bluetooth applications.
+      Files:
+          - "%doc AUTHORS COPYING INSTALL README"
+          - "%{_libdir}/libbluetooth.so.*"
+
+    - Name: libs-devel
+      Summary: Development libraries for Bluetooth applications
+      Group: Development/Libraries
+      Description: |
+          bluez-libs-devel contains development libraries and headers for
+          use in Bluetooth applications.
+      Requires:
+          - bluez-libs = %{version}
+      Files:
+          - "%{_libdir}/libbluetooth.so"
+          - "%dir %{_includedir}/bluetooth"
+          - "%{_includedir}/bluetooth/*"
+          - "%{_libdir}/pkgconfig/bluez.pc"
+
+    - Name: cups
+      Summary: CUPS printer backend for Bluetooth printers
+      Group: System/Daemons
+      Description: This package contains the CUPS backend
+      Requires:
+          - bluez-libs = %{version}
+          - cups
+      Files:
+          - "%{_libdir}/cups/backend/bluetooth"
+
+    - Name: hid2hci
+      Summary: Put HID proxying bluetooth HCI's into HCI mode
+      Group: System/Daemons
+      Description: |
+          Most allinone PC's and bluetooth keyboard / mouse sets which include a
+          bluetooth dongle, ship with a so called HID proxying bluetooth HCI.
+          The HID proxying makes the keyboard / mouse show up as regular USB HID
+          devices (after connecting using the connect button on the device + keyboard),
+          which makes them work without requiring any manual configuration.
+
+          The bluez-hid2hci package contains the hid2hci utility and udev rules to
+          automatically switch supported Bluetooth devices into regular HCI mode.
+
+          Install this package if you want to use the bluetooth function of the HCI
+          with other bluetooth devices like for example a mobile phone.
+
+          Note that after installing this package you will first need to pair your
+          bluetooth keyboard and mouse with the bluetooth adapter before you can use
+          them again. Since you cannot use your bluetooth keyboard and mouse until
+          they are paired, this will require the use of a regular (wired) USB keyboard
+          and mouse.
+      Files:
+          - "%{_prefix}/%{_lib}/udev/hid2hci"
+          - "%{_udevrulesdir}/97-hid2hci.rules"
+
+    - Name: test
+      Summary: Test Programs for BlueZ
+      Group: Development/Tools
+      Description: Scripts for testing BlueZ and its functionality
+      Requires:
+          - bluez-libs = %{version}
+          - dbus-python
+          - pygobject2
+      Files:
+          - "%{_libdir}/bluez/test/*"
+
+    - Name: doc
+      Summary: Documentation for bluez
+      Group: Documentation
+      Description: This package provides man page documentation for bluez
+      Files:
+          - "%doc %{_mandir}/man1/*"
+          - "%doc %{_mandir}/man8/*"
+
+    - Name: configs-maui
+      Summary: Default configuration for bluez
+      Group: Applications/System
+      Description: This package provides default configs for bluez
+      Provides: 
+          - bluez-configs
+      Files:
+          - "%config(noreplace) %{_sysconfdir}/bluetooth/*"
