@@ -3,18 +3,7 @@ Version: 5.22
 Release: 1
 Summary: Bluetooth utilities
 Description: |
-  Utilities for use in Bluetooth applications:
-      --ciptool
-      --dfutool
-      --hcitool
-      --l2ping
-      --rfcomm
-      --sdptool
-      --hciattach
-      --hciconfig
-      --hid2hci
-  
-  The BLUETOOTH trademarks are owned by Bluetooth SIG, Inc., U.S.A.
+  The Bluetooth stack for Linux.
 Group: Applications/System
 License: GPLv2+
 URL: http://www.bluez.org/

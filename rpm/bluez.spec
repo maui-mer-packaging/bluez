@@ -40,18 +40,7 @@ Provides:   bluez-alsa
 Conflicts:   bluez-alsa
 
 %description
-Utilities for use in Bluetooth applications:
-    --ciptool
-    --dfutool
-    --hcitool
-    --l2ping
-    --rfcomm
-    --sdptool
-    --hciattach
-    --hciconfig
-    --hid2hci
-
-The BLUETOOTH trademarks are owned by Bluetooth SIG, Inc., U.S.A.
+The Bluetooth stack for Linux.
 
 
 %package libs
