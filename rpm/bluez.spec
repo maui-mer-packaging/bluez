@@ -8,6 +8,7 @@ Name:       bluez
 # >> macros
 # << macros
 
+
 Summary:    Bluetooth utilities
 Version:    5.22
 Release:    1
@@ -73,31 +74,6 @@ Requires:   cups
 
 %description cups
 This package contains the CUPS backend
-
-%package hid2hci
-Summary:    Put HID proxying bluetooth HCI's into HCI mode
-Group:      System/Daemons
-Requires:   %{name} = %{version}-%{release}
-
-%description hid2hci
-Most allinone PC's and bluetooth keyboard / mouse sets which include a
-bluetooth dongle, ship with a so called HID proxying bluetooth HCI.
-The HID proxying makes the keyboard / mouse show up as regular USB HID
-devices (after connecting using the connect button on the device + keyboard),
-which makes them work without requiring any manual configuration.
-
-The bluez-hid2hci package contains the hid2hci utility and udev rules to
-automatically switch supported Bluetooth devices into regular HCI mode.
-
-Install this package if you want to use the bluetooth function of the HCI
-with other bluetooth devices like for example a mobile phone.
-
-Note that after installing this package you will first need to pair your
-bluetooth keyboard and mouse with the bluetooth adapter before you can use
-them again. Since you cannot use your bluetooth keyboard and mouse until
-they are paired, this will require the use of a regular (wired) USB keyboard
-and mouse.
-
 
 %package test
 Summary:    Test Programs for BlueZ
@@ -206,6 +182,7 @@ systemctl daemon-reload
 %{_datadir}/dbus-1/services/org.bluez.obex.service
 %{_unitdir}/bluetooth.service
 %{_userunitdir}/obex.service
+%{_udevrulesdir}/*
 # >> files
 # << files
 
@@ -230,13 +207,6 @@ systemctl daemon-reload
 %{_libdir}/cups/backend/bluetooth
 # >> files cups
 # << files cups
-
-%files hid2hci
-%defattr(-,root,root,-)
-%{_prefix}/%{_lib}/udev/hid2hci
-%{_udevrulesdir}/97-hid2hci.rules
-# >> files hid2hci
-# << files hid2hci
 
 %files test
 %defattr(-,root,root,-)
