@@ -8,7 +8,6 @@ Name:       bluez
 # >> macros
 # << macros
 
-
 Summary:    Bluetooth utilities
 Version:    5.22
 Release:    1
@@ -182,7 +181,7 @@ systemctl daemon-reload
 %{_datadir}/dbus-1/services/org.bluez.obex.service
 %{_unitdir}/bluetooth.service
 %{_userunitdir}/obex.service
-%{_udevrulesdir}/*
+/lib/udev/*
 # >> files
 # << files
 

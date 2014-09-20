@@ -63,7 +63,7 @@ Files:
     - "%{_datadir}/dbus-1/services/org.bluez.obex.service"
     - "%{_unitdir}/bluetooth.service"
     - "%{_userunitdir}/obex.service"
-    - "%{_udevrulesdir}/*"
+    - "/lib/udev/*"
 
 SubPackages:
     - Name: libs
